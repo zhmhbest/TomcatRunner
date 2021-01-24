@@ -146,11 +146,4 @@ public class TomcatResources {
         defaultConfiguration();
     }
 
-    public static void main(String[] args) throws IOException {
-        String base = "E:\\Userprofile\\Notes\\HelloJavaWeb\\notes\\tomcat\\Server\\src\\conf\\";
-        String filename = "web.xml";
-        byte[] data = readFile(new File(base + filename));
-        writeFile(new File(base + filename + ".64.txt"), encodeCompressedBase64(data).getBytes());
-    }
-
 }
