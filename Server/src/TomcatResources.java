@@ -8,15 +8,18 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 
+/**
+ * @author zhmhbest
+ */
 public class TomcatResources {
-    private static final String currentDirectory =
+    private static final String CURRENT_DIRECTORY =
             new File(TomcatResources.class.getResource("/").getPath()).getAbsolutePath()
                     .replaceAll("\\\\", "/");
-    private static final String tomcatBinaryDirectory =
+    private static final String TOMCAT_BINARY_DIRECTORY =
             new File(Bootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent()
                     .replaceAll("\\\\", "/");
-    private static final String tomcatDirectory =
-            new File(tomcatBinaryDirectory).getParent()
+    private static final String TOMCAT_DIRECTORY =
+            new File(TOMCAT_BINARY_DIRECTORY).getParent()
                     .replaceAll("\\\\", "/");
 
 
@@ -64,23 +67,23 @@ public class TomcatResources {
     }
 
     private static void defaultProperties() {
-        System.setProperty("catalina.home", tomcatDirectory);
-        System.setProperty("catalina.base", currentDirectory);
+        System.setProperty("catalina.home", TOMCAT_DIRECTORY);
+        System.setProperty("catalina.base", CURRENT_DIRECTORY);
     }
 
     private static void defaultDirectories(String baseDirectory) {
-        File dir_logs = new File(baseDirectory + "/logs");
-        File dir_temp = new File(baseDirectory + "/temp");
-        File dir_work = new File(baseDirectory + "/work");
-        File dir_conf = new File(baseDirectory + "/conf");
-        File dir_webapps = new File(baseDirectory + "/webapps");
-        File dir_root = new File(baseDirectory + "/webapps/ROOT");
-        System.out.printf("%s: new?=%b\n", dir_logs, dir_logs.mkdir());
-        System.out.printf("%s: new?=%b\n", dir_temp, dir_temp.mkdir());
-        System.out.printf("%s: new?=%b\n", dir_work, dir_work.mkdir());
-        System.out.printf("%s: new?=%b\n", dir_conf, dir_conf.mkdir());
-        if (dir_webapps.mkdir()) {
-            System.out.printf("%s: new?=%b\n", dir_root, dir_root.mkdir());
+        File dirLogs = new File(baseDirectory + "/logs");
+        File dirTemp = new File(baseDirectory + "/temp");
+        File dirWork = new File(baseDirectory + "/work");
+        File dirConf = new File(baseDirectory + "/conf");
+        File dirWebapps = new File(baseDirectory + "/webapps");
+        File dirRoot = new File(baseDirectory + "/webapps/ROOT");
+        System.out.printf("%s: new?=%b\n", dirLogs, dirLogs.mkdir());
+        System.out.printf("%s: new?=%b\n", dirTemp, dirTemp.mkdir());
+        System.out.printf("%s: new?=%b\n", dirWork, dirWork.mkdir());
+        System.out.printf("%s: new?=%b\n", dirConf, dirConf.mkdir());
+        if (dirWebapps.mkdir()) {
+            System.out.printf("%s: new?=%b\n", dirRoot, dirRoot.mkdir());
             try {
                 writeFile(
                         new File(baseDirectory + "/webapps/ROOT/index.jsp"),
@@ -94,7 +97,9 @@ public class TomcatResources {
 
     private static void defaultConfiguration() {
         String baseDirectory = System.getProperty("catalina.base");
-        if (!baseDirectory.equals(currentDirectory)) return;
+        if (!baseDirectory.equals(CURRENT_DIRECTORY)) {
+            return;
+        }
         defaultDirectories(baseDirectory);
 
         // // ?
